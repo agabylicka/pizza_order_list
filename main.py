@@ -49,6 +49,24 @@ def delete_pizza(number: int):
     return {}, 404
 
 
+@app.route("/pizzas/<number>", methods=["PUT"])
+def update_pizza(number: int):
+    if request.is_json:
+        updated_pizza = request.get_json()
+        updated_pizza["id"] = int(number)
+        for pizza in pizzas:
+            if str(pizza['id']) == str(number):
+                pizzas.remove(pizza)
+                pizzas.append(updated_pizza)
+                return {}, 204
+        return {}, 404
+    else:
+        return jsonify("Request is not json"), 400
+
+
+
+
+
 def next_id() -> int:
     if len(pizzas) == 0:
         return 1
