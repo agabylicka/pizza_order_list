@@ -12,20 +12,23 @@ pizzas = [{'id': 2,
            }]
 
 
-@app.route("/", methods=["GET"])
-def hello_world():
-    return "Hello world"
-
-
 @app.route("/health", methods=["GET"])
 def server_health():
     response = "Server is OK"
     return jsonify(response)
 
 
-@app.route("/order", methods=["GET"])
-def to_order():
+@app.route("/pizzas", methods=["GET"])
+def list_pizzas():
     return jsonify(pizzas)
+
+
+@app.route("/pizzas/<number>", methods=["GET"])
+def show_pizza(number: int):
+    for pizza in pizzas:
+        if str(pizza['id']) == str(number):
+            return jsonify(pizza), 200
+    return {}, 404
 
 
 @app.route("/pizzas", methods=["POST"])
