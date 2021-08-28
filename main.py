@@ -1,6 +1,5 @@
 from flask import jsonify, request, Flask
 
-
 app = Flask(__name__)
 
 pizzas = [{'id': 2,
@@ -33,14 +32,13 @@ def show_pizza(number: int):
 
 @app.route("/pizzas", methods=["POST"])
 def add_pizza():
-    if request.is_json:
-        pizza = request.get_json()
-        pizza["id"] = next_id()
-        pizzas.append(pizza)
-        res = {'status': 'created'}
-        return jsonify(res), 201
-    else:
+    if not request.is_json:
         return jsonify("Request is not json"), 400
+    pizza = request.get_json()
+    pizza["id"] = next_id()
+    pizzas.append(pizza)
+    res = {'status': 'created'}
+    return jsonify(res), 201
 
 
 @app.route("/pizzas/<number>", methods=["DELETE"])
@@ -67,9 +65,6 @@ def update_pizza(number: int):
         return jsonify("Request is not json"), 400
 
 
-
-
-
 def next_id() -> int:
     if len(pizzas) == 0:
         return 1
@@ -77,7 +72,7 @@ def next_id() -> int:
     for pizza in pizzas:
         if pizza["id"] > big:
             big = pizza["id"]
-    return big+1
+    return big + 1
 
 
 if __name__ == '__main__':
