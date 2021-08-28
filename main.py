@@ -36,7 +36,7 @@ def add_pizza():
         pizza["id"] = next_id()
         pizzas.append(pizza)
         res = {'status': 'created'}
-        return jsonify(res)
+        return jsonify(res), 201
     else:
         return jsonify("Request is not json", 400)
 
