@@ -3,10 +3,10 @@ from flask import jsonify, request, Flask
 
 app = Flask(__name__)
 
-pizzas = [{"id": 2,
+pizzas = [{'id': 2,
            "name": "Margarita",
            "price": 14.25},
-          {"id": 3,
+          {'id': 3,
            "name": "Hawaiian",
            "price": 15.25
            }]
@@ -30,7 +30,6 @@ def to_order():
 
 @app.route("/pizzas", methods=["POST"])
 def add_pizza():
-    print(request.json)
     if request.is_json:
         pizza = request.get_json()
         pizza["id"] = next_id()
@@ -38,7 +37,16 @@ def add_pizza():
         res = {'status': 'created'}
         return jsonify(res), 201
     else:
-        return jsonify("Request is not json", 400)
+        return jsonify("Request is not json"), 400
+
+
+@app.route("/pizzas/<number>", methods=["DELETE"])
+def delete_pizza(number: int):
+    for pizza in pizzas:
+        if str(pizza['id']) == str(number):
+            pizzas.remove(pizza)
+            return {}, 204
+    return {}, 404
 
 
 def next_id() -> int:
