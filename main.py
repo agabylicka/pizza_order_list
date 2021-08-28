@@ -1,9 +1,7 @@
-import flask
-import json
-from flask import jsonify, request
+from flask import jsonify, request, Flask
 
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 pizzas = [{"id": 2,
            "name": "Margarita",
