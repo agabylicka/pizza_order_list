@@ -74,6 +74,7 @@ def next_id() -> int:
             big = pizza["id"]
     return big + 1
 
+# TODO: please add comment what this app dose
 
 if __name__ == '__main__':
     cos = next_id()
